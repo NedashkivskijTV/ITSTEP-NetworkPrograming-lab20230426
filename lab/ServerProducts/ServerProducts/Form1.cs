@@ -16,14 +16,19 @@ namespace ServerProducts
             InitializeComponent();
             Text = "Server";
 
+            // Ініціалізація даних (отримання з БД)
+            DataInit();
+        }
+
+        // Ініціалізація даних (отримання з БД)
+        private void DataInit()
+        {
             // Ініціалізація/наповнення колекції Product елементами (імітація роботи з БД)
-            products = new List<Product>();
-            products.Add(new Product("Lemon", "yellow", 11));
-            products.Add(new Product("Pineapple", "sweet", 15));
-            products.Add(new Product("Orange", "juicy", 17));
-            
-            // Виклик Методу (самописний) для оновлення візуального компонента (dataGridView1) після зміни колекції
-            //ListUpdate(products);
+            //products = new List<Product>();
+            //products.Add(new Product("Lemon", "yellow", 11));
+            //products.Add(new Product("Pineapple", "sweet", 15));
+            //products.Add(new Product("Orange", "juicy", 17));
+            products = DBProduct.LoadProductsCollection();
         }
 
         private void btnStartServer_Click(object sender, EventArgs e)
@@ -77,9 +82,6 @@ namespace ServerProducts
                 {
                     Console.WriteLine(ex.Message);
                 }
-
-                //// режим очікування (інакше застосунок завершить роботу)
-                //Console.ReadLine();
             });
 
         }
@@ -89,6 +91,12 @@ namespace ServerProducts
             StringBuilder builder = new StringBuilder(tbServerInfo.Text);
             builder.Append("\r\n" + str);
             tbServerInfo.Text = builder.ToString();
+        }
+
+        private void btnShowProducts_Click(object sender, EventArgs e)
+        {
+            FormShowProducts frm = new FormShowProducts();
+            frm.ShowDialog();
         }
     }
 }
